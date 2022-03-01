@@ -1,0 +1,19 @@
+ A=imread('flower.jpg');
+[rr,cc,zz]= size(A);
+scx=50;
+scy=60;
+for i=1:rr
+    for k=1:cc
+     xx=i+scx;
+     yy=k+scy;
+     mg(xx,yy,:)=A(rr,cc,:);
+     end
+end
+%for i=1:p
+ %   for j=1:q
+  %    i1=i+u;
+   %   j1=j+v;
+    %  b(i1,j1,:)=a(i,j,:);
+    %end
+%end
+figure;imshow (mg)

@@ -1,0 +1,94 @@
+
+% Forward Warping and Translation
+clear all;
+img = imread('boccadasse.jpg'); %load image into matrix img 
+figure,image(img),title('Orignal image for Translation');
+[rr cc zz] = size (img);     % save rows, colums and Z axis 
+
+[X Y] = meshgrid(1:cc,1:rr);  
+
+%define spatial transform
+Xt = X + 50;   % translate X axis by factor 50
+Yt = Y + 60;   % translate X axis by factor 60
+%define output space
+Matrix = zeros(rr,cc,zz);
+
+for i = 1:rr
+    for j = 1:cc
+                %compute new (integer) coordinatesa
+                % forward warping and Translation
+                
+                xn = round(Xt(i,j));   % round off to get integer values
+                yn = round(Yt(i,j));
+                
+                %check if they are included in the range
+                if ( (xn <= cc ) && (yn <= rr))                
+                Matrix(yn,xn,:) =img(i,j,:); % perform forward warping
+                end
+                
+    end
+end
+
+tran = uint8(Matrix) ;
+figure,image(tran),title('Translated image forward warping');
+
+
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+
+% Rotation Forward Warping
+clear all;
+img = imread('boccadasse.jpg'); %load image into matrix img 
+[rr cc zz] = size (img);     % save rows, colums and Z axis 
+[X Y] = meshgrid(1:cc,1:rr);
+figure,image(img),title('Orignal image for Rotation');
+theta=-45;
+Matrix = zeros(rr,cc,zz);
+% Center point
+         Xc=(rr/2);
+         Yc=(cc/2);         
+% Move matrix in the center of rotation         
+         X1 = X - Xc;
+         Y1 = Y - Yc;
+          
+% Calculate the new position of pixel 
+for i = 1:cc
+    for j = 1:rr
+          Xt(j,i) = X1(j,i)*cos(theta) - Y1(j,i)*sin(theta);      
+          Yt(j,i) = X1(j,i)*sin(theta) + Y1(j,i)*cos(theta);
+          
+    end
+end
+% Bring matrix back into its original position 
+Xt= Xt + Xc;
+Yt= Yt + Yc;
+
+for i = 1:rr
+    for j = 1:cc
+                %compute new (integer) coordinatesa
+                % forward warping and Translation
+                xn = round(Xt(i,j));   % round off to get integer values
+                yn = round(Yt(i,j));
+                
+                %check if they are included in the range
+                if ( (xn < cc+1 ) &&(xn>0)&&(yn>0)&& (yn <= rr+1))                
+                Matrix(yn,xn,:) = img(i,j,:); % perform forward warping
+                end
+                
+    end
+end
+
+tran = uint8(Matrix) ;
+figure,image(tran),title('rotated image forward warping');
+
+%[B]=forward_warping(A,Xt,Yt);
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+%--------------------------------------------------------------------------
+clear all;
+img = imread('boccadasse.jpg'); %load image into matrix img 
+[rr cc zz] = size (img);     % save rows, colums and Z axis 
+[X Y] = meshgrid(1:cc,1:rr);

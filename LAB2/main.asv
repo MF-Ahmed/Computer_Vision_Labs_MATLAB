@@ -1,0 +1,29 @@
+clc;
+clear all;
+close all;
+
+
+img1=imread('boccadasse.jpg');
+img2=imread('cameraman.tif');
+img3=imread('car.bmp');
+
+
+img1_1=img1(:,:,1);
+
+sigma=1.5; % standard deviation
+z = LoG(sigma);
+
+%  j1=conv2(img1_1,z,'same');
+%  figure;imagesc(uint8(j1));colormap gray;
+%  
+%  
+%  j2=conv2(img2,z,'same');
+%  figure;imagesc(uint8(j2));colormap gray;
+%  
+%  
+%  j3=conv2(img3,z,'same');
+%  figure;imagesc(uint8(j3));colormap gray;
+
+
+
+

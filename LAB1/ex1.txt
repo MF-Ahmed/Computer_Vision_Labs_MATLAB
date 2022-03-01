@@ -1,0 +1,77 @@
+A = imread('boccadasse.jpg');
+
+[M N P] = size (A);
+
+[X Y] = meshgrid(1:N,1:M);
+
+%define spatial transform
+Xt = X - 50;
+Yt = Y - 50;
+
+%define output space
+Matrix = zeros(M,N,P);
+
+for i = 1:M
+    for j = 1:N
+                %compute new (integer) coordinates
+                
+                xn = round(Xt(i,j));
+                yn = round(Yt(i,j));
+                
+                %check if they are included in the range
+                
+                if ( (xn > 0) && (xn < N + 1) && (yn > 0) && (yn < M + 1))
+                Matrix(yn,xn,:) = A(i,j,:);                      
+                end
+    end
+end
+
+B = uint8(Matrix) ;
+
+figure
+image(B);title('Traslation Forward Warping')
+%--------------------------------------------------------------------------
+%backward translation
+A = imread('boccadasse.jpg');
+
+[M N P] = size (A);
+
+[X Y]= meshgrid(1:N,1:M);
+
+%define spatial transform
+Xt = X - 50 ;
+Yt = Y - 50 ;
+
+%define output space
+Matrix = zeros(M,N,P);
+
+for i = 1:M
+    for j = 1:N
+        % Compute new coordinates
+        
+        x = Xt(i,j);
+        y = Yt(i,j);
+        
+        % Compute values needed to use bilinear interpolation
+        
+        xlower = floor(x);
+        xupper = xlower + 1;
+        ylower = floor(y);
+        yupper = ylower + 1;
+        
+        % Computing distances a & b needed to use bilinear interpolation
+        a = ( x - xlower );
+        b = ( y - yupper );
+                
+        % Check if new coordinates are included in the range
+        if (( xlower > 0 ) && ( xupper < N + 1) && ( ylower > 0) && ( yupper < M + 1))
+            % Compute the new value for the output pixel, according to the given formula                   
+            Matrix(i,j,:)= (1 - a) * (1 - b) * A(ylower,xlower,:) + a * (1 - b) * A(yupper,xlower,:) + a * b * A(yupper,xupper,:) + (1 - a) * b * A(ylower,xupper,:);      
+        end
+    end    
+end
+
+B = uint8(Matrix);
+
+figure
+image(B);title('Traslation Backward Warping')

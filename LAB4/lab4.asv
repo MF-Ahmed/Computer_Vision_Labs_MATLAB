@@ -1,0 +1,12 @@
+clc;close all;clear all;
+
+ A1=imread('C:\Users\Ahmed\Desktop\All EMARO_Class\1st Semester\computer Vision\LAB_4\sphere\sphere.0.ppm');
+ A2=imread('C:\Users\Ahmed\Desktop\All EMARO_Class\1st Semester\computer Vision\LAB_4\sphere\sphere.1.ppm');
+ 
+ 
+ img1=A1(:,:,1);
+ img2=A2(:,:,1);
+ N = 5;
+(u, v) = LucasKanade(img1, img2, N);
+ quiver(u,v);
+ 

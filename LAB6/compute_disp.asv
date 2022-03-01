@@ -1,0 +1,50 @@
+
+% function [D] = compute_disp(I1,I2,w,dmin,dmax)
+% [rr,cc]=size(I1);
+% D = zeros(rr,cc); 
+% 
+% %The function will visit all points p=(i,j) of image I1 (with the exception of the ones in the external frame of thickness W/2)
+% %and find the "best" corresponding points in I2 (looking at the search
+% %range [j+dmin, j+dmax]). 
+% l= w/2+1; %padding is done to keep index dimensions right
+% for i=l:rr-l+1
+%     for j1=l-dmin+1:cc-dmax-l
+%         N1=I1(i-w/2:i+w/2,j1-w/2:j1+w/2);
+%         row=0;
+%     for j2=j1+dmin:j1+dmax
+%         N2=I2(i-w/2:i+w/2,j2-w/2:j2+w/2);
+%         ssdiff=ssd(N1,N2);
+%         row = row+1;  
+%          X(row,1)=ssdiff;
+%     end
+%      [~,D(i,j1)] = max(X);  % find the max of these values
+%      D(i,j1)=D(i,j1)+dmin-1;
+%     end 
+% end
+%  
+% end
+
+%function produces disparity map of I1 w.r.t I2
+%function produces disparity map of I1 w.r.t I2
+function D=compute_disp(I1,I2,w,dmin,dmax)
+[rr,cc]=size(I1);
+D=zeros(rr,cc);
+padd=w/2+1;
+%padding is done to keep the index dimensions right.
+for i=padd:rr-padd+1
+    for j=padd-dmin+1:cc-dmax-l
+        N1=I1(i-w/2:i+w/2,j-w/2:j+w/2);
+        row=0;
+        for j1=j+dmin:j+dmax
+            N2=I2(i-w/2:i+w/2,j1-w/2:j1+w/2);
+            ssdiff=ssd(N1,N2);% calcutate sum of squares of differences
+            row=row+1;
+            X(row,1)=ssdiff;% stack dmax values into a coulum vactor 
+        end
+        
+        [~,D(i,j)]=max(X);%best similarity is the maximum of ssd.
+        D(i,j)=D(i,j)+dmin-1;
+    end
+end
+end
+
