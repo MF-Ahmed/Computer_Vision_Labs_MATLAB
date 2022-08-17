@@ -1,5 +1,6 @@
 # Computer_Vision_Labs_MATLAB
-This repository contains Labs for the Computer vision couse attended during master studies in 2015 using MATLAB 2012
+This repository contains Labs for the Computer vision couse attended during master studies in 2015 using MATLAB 2012, alternatively Octave can be used but 
+is not tested. 
 
 ## Description
 
