@@ -1,5 +1,5 @@
 # Computer_Vision_Labs_MATLAB
-This repository contains Labs for the Computer vision couse attended during master studies
+This repository contains Labs for the Computer vision couse attended during master studies in 2015 using MATLAB 2012
 
 ## Description
 
